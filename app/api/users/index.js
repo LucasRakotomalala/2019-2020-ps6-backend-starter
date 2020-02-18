@@ -1,46 +1,43 @@
 const { Router } = require('express')
 
-const { Quiz } = require('../../models')
-const QuestionRouter = require('./questions')
+const { User } = require('../../models')
 
-const router = new Router({ mergeParams: true })
+const router = new Router()
 
 router.get('/', (req, res) => {
   try {
     res.status(200)
-      .json(Quiz.get())
+      .json(User.get())
   } catch (err) {
     res.status(500)
       .json(err)
   }
 })
 
-router.use('/:quizId/question', QuestionRouter)
-
-router.get('/:quizId', (req, res) => {
+router.get('/:userId', (req, res) => {
   try {
     res.status(200)
-      .json(Quiz.getById(req.params.quizId))
+      .json(User.getById(req.params.userId))
   } catch (err) {
     res.status(500)
       .json(err)
   }
 })
 
-router.delete('/:quizId', (req, res) => {
+router.delete('/:userId', (req, res) => {
   try {
     res.status(200)
-      .json(Quiz.delete(req.params.quizId))
+      .json(User.delete(req.params.userId))
   } catch (err) {
     res.status(500)
       .json(err)
   }
 })
 
-router.put('/:quizId', (req, res) => {
+router.put('/:userId', (req, res) => {
   try {
     res.status(200)
-      .json(Quiz.update(req.params.quizId, req.body))
+      .json(User.update(req.params.userId, req.body))
   } catch (err) {
     res.status(500)
       .json(err)
@@ -49,7 +46,7 @@ router.put('/:quizId', (req, res) => {
 
 router.post('/', (req, res) => {
   try {
-    const quiz = Quiz.create({ ...req.body })
+    const quiz = User.create({ ...req.body })
     res.status(201)
       .json(quiz)
   } catch (err) {

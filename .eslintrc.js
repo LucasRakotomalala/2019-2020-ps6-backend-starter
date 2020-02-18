@@ -9,4 +9,4 @@ module.exports = {
     'no-underscore-dangle': ['error', { 'allow': ['_id'] }],
     'semi': ['error', 'never'],
   }
-};
+}

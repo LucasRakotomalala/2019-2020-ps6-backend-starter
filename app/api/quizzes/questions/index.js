@@ -1,46 +1,44 @@
 const { Router } = require('express')
 
-const { Quiz } = require('../../models')
-const QuestionRouter = require('./questions')
+const { Question } = require('../../../models')
 
-const router = new Router({ mergeParams: true })
+const router = new Router()
 
 router.get('/', (req, res) => {
   try {
     res.status(200)
-      .json(Quiz.get())
+      .json(Question.get())
   } catch (err) {
     res.status(500)
       .json(err)
   }
 })
 
-router.use('/:quizId/question', QuestionRouter)
 
-router.get('/:quizId', (req, res) => {
+router.get('/:questionId', (req, res) => {
   try {
     res.status(200)
-      .json(Quiz.getById(req.params.quizId))
+      .json(Question.getById(req.params.questionId))
   } catch (err) {
     res.status(500)
       .json(err)
   }
 })
 
-router.delete('/:quizId', (req, res) => {
+router.delete('/:questionId', (req, res) => {
   try {
     res.status(200)
-      .json(Quiz.delete(req.params.quizId))
+      .json(Question.delete(req.params.questionId))
   } catch (err) {
     res.status(500)
       .json(err)
   }
 })
 
-router.put('/:quizId', (req, res) => {
+router.put('/:questionId', (req, res) => {
   try {
     res.status(200)
-      .json(Quiz.update(req.params.quizId, req.body))
+      .json(Question.update(req.params.questionId, req.body))
   } catch (err) {
     res.status(500)
       .json(err)
@@ -49,9 +47,10 @@ router.put('/:quizId', (req, res) => {
 
 router.post('/', (req, res) => {
   try {
-    const quiz = Quiz.create({ ...req.body })
+    req.body.quizId = parseInt(req.body.quizId, 10)
+    const question = Question.create({ ...req.body })
     res.status(201)
-      .json(quiz)
+      .json(question)
   } catch (err) {
     if (err.name === 'ValidationError') {
       res.status(400)
@@ -62,5 +61,5 @@ router.post('/', (req, res) => {
     }
   }
 })
-
+// A la création, on récupère l'id du quizz grâce à req.params.quizId
 module.exports = router
