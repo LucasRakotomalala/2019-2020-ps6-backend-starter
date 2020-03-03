@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
     const answers = Answer.get()
     const questionId = parseInt(req.params.questionId, 10)
     res.status(200)
-      .json(answers.filter(answer => answer.questionId === questionId))
+      .json(answers.filter((answer) => answer.questionId === questionId))
   } catch (err) {
     res.status(500)
       .json(err)
