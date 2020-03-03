@@ -1,14 +1,18 @@
 const { Router } = require('express')
 
 const { Question } = require('../../../models')
+const { Answer } = require('../../../models')
 const AnswerRouter = require('./answers')
 
 const router = new Router({ mergeParams: true })
 
 router.get('/', (req, res) => {
   try {
-    const questions = Question.get()
+    let questions = Question.get()
     const quizId = parseInt(req.params.quizId, 10)
+    for (const question of questions) {
+      question.answers = Answer.get().filter((answer) => answer.questionId === question.id)
+    }
     res.status(200)
       .json(questions.filter((question) => question.quizId === quizId))
   } catch (err) {

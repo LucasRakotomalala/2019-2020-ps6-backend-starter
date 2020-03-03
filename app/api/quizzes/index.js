@@ -1,21 +1,26 @@
 const { Router } = require('express')
 
 const { Quiz } = require('../../models')
+const { Question } = require('../../models')
 const QuestionRouter = require('./questions')
 
 const router = new Router({ mergeParams: true })
 
 router.get('/', (req, res) => {
   try {
+    let quizzes = Quiz.get()
+    for (let quiz of quizzes) {
+      quiz.questions = Question.get().filter((question) => question.quizId === quiz.id)
+    }
     res.status(200)
-      .json(Quiz.get())
+      .json(quizzes)
   } catch (err) {
     res.status(500)
       .json(err)
   }
 })
 
-router.use('/:quizId/question', QuestionRouter)
+router.use('/:quizId/questions', QuestionRouter)
 
 router.get('/:quizId', (req, res) => {
   try {
