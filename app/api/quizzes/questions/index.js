@@ -10,10 +10,9 @@ router.get('/', (req, res) => {
   try {
     let questions = Question.get()
     const quizId = parseInt(req.params.quizId, 10)
-    questions.forEach(question =>
+    questions.forEach((question) =>
       question.answers = Answer.get().filter((answer) => answer.questionId === question.id))
-    res.status(200)
-      .json(questions.filter((question) => question.quizId === quizId))
+    res.status(200).json(questions.filter((question) => question.quizId === quizId))
   } catch (err) {
     res.status(500)
       .json(err)

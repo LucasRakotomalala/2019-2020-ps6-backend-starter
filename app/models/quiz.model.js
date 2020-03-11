@@ -7,4 +7,5 @@ module.exports = new BaseModel('Quiz', {
   name: Joi.string()
     .required(),
   questions: Joi.array(),
+  date: Joi.date(),
 })

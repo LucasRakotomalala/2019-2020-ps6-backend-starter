@@ -8,11 +8,10 @@ const router = new Router({ mergeParams: true })
 
 router.get('/', (req, res) => {
   try {
-    let quizzes = Quiz.get()
-    quizzes.forEach(quiz =>
+    const quizzes = Quiz.get()
+    quizzes.forEach((quiz) =>
       quiz.questions = Question.get().filter((question) => question.quizId === quiz.id))
-    res.status(200)
-      .json(quizzes)
+    res.status(200).json(quizzes)
   } catch (err) {
     res.status(500)
       .json(err)
