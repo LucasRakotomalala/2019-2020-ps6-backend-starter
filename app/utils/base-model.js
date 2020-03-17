@@ -9,12 +9,7 @@ module.exports = class BaseModel {
   constructor(name, schema) {
     if (!name) throw new Error('You must provide a name in constructor of BaseModel')
     if (!schema) throw new Error('You must provide a schema in constructor of BaseModel')
-    this.schema = Joi.object()
-      .keys({
-        ...schema,
-        id: Joi.number()
-          .required(),
-      })
+    this.schema = Joi.object().keys({ ...schema, id: Joi.number().required() })
     this.items = []
     this.name = name
     this.filePath = `${__dirname}/../../mocks/${this.name.toLowerCase()}.mocks.json`
@@ -49,10 +44,7 @@ module.exports = class BaseModel {
   }
 
   create(obj = {}) {
-    const item = {
-      ...obj,
-      id: Date.now(),
-    }
+    const item = { ...obj, id: Date.now() }
     const { error } = Joi.validate(item, this.schema)
     if (error) throw new ValidationError(`Create Error : Object ${JSON.stringify(obj)} does not match schema of model ${this.name}`, error)
     this.items.push(item)

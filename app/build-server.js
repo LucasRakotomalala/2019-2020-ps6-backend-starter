@@ -11,7 +11,6 @@ module.exports = (cb) => {
   app.use(bodyParser.json({}))
   app.use(morgan('[:date[iso]] :method :url :status :response-time ms - :res[content-length]'))
   app.use('/api', api)
-  app.use('*', (req, res) => res.status(404)
-    .end())
+  app.use('*', (req, res) => res.status(404).end())
   const server = app.listen(process.env.PORT || 9428, () => cb && cb(server))
 }
